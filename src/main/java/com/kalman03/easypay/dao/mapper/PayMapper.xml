@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalman03.easypay.dao.mapper.PayMapper">
+
+	<sql id="queryFields">
+        `id`,
+        `open_id`,
+        `product_id`,
+        `amount`,
+        `pay_amount`,
+        `pay_status`,
+        `pay_time`,
+        `transaction_id`,
+        `pay_id`,
+        `create_time`,
+        `update_time`
+	</sql>
+	
+	<resultMap id="BaseResultMap" type="com.kalman03.easypay.dao.pojo.Pay">
+		<id property="id" column="id" jdbcType="BIGINT"/>
+		<result property="id" column="id" jdbcType="BIGINT" />
+		<result property="openId" column="open_id" jdbcType="VARCHAR" />
+		<result property="productId" column="product_id" jdbcType="BIGINT" />
+		<result property="amount" column="amount" jdbcType="DECIMAL" />
+		<result property="payAmount" column="pay_amount" jdbcType="DECIMAL" />
+		<result property="payStatus" column="pay_status" jdbcType="INTEGER" />
+		<result property="payTime" column="pay_time" jdbcType="TIMESTAMP" />
+		<result property="transactionId" column="transaction_id" jdbcType="VARCHAR" />
+		<result property="payId" column="pay_id" jdbcType="VARCHAR" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="whereClause">
+    	<if test="id != null">
+			and `id` = #{id}
+		</if>
+    	<if test="openId != null">
+			and `open_id` = #{openId}
+		</if>
+    	<if test="productId != null">
+			and `product_id` = #{productId}
+		</if>
+    	<if test="amount != null">
+			and `amount` = #{amount}
+		</if>
+    	<if test="payAmount != null">
+			and `pay_amount` = #{payAmount}
+		</if>
+    	<if test="payStatus != null">
+			and `pay_status` = #{payStatus}
+		</if>
+    	<if test="payTime != null">
+			and `pay_time` = #{payTime}
+		</if>
+    	<if test="transactionId != null">
+			and `transaction_id` = #{transactionId}
+		</if>
+    	<if test="payId != null">
+			and `pay_id` = #{payId}
+		</if>
+    	<if test="createTime != null">
+			and `create_time` = #{createTime}
+		</if>
+    	<if test="updateTime != null">
+			and `update_time` = #{updateTime}
+		</if>
+    </sql>
+	
+	<select id="findById" resultMap="BaseResultMap">
+		select  
+			<include refid="queryFields"/>
+		from
+			pay
+		where
+			id=#{id}
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select 
+			<include refid="queryFields"/>
+		from
+			pay
+		<where>
+            <include refid="whereClause"/>
+        </where>
+		<choose>
+            <when test="orderBy != null">
+                order by ${orderBy}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        limit #{offset}, #{limit}
+	</select>
+
+	<select id="findByIds" resultMap="BaseResultMap">
+		select 
+			<include refid="queryFields"/>
+		from
+			pay
+		where
+			id in
+			<foreach collection="list" close=")" index="index" item="item" open="(" separator=",">
+				#{item}
+			</foreach>
+	</select>
+
+	<select id="count" resultType="int">
+		select 
+			count(*)
+		from 
+			pay 
+		<where>
+            <include refid="whereClause"/>
+        </where>
+	</select>
+	
+	<insert id="save" parameterType="com.kalman03.easypay.dao.pojo.Pay" keyProperty="id" useGeneratedKeys="true">
+		insert into pay
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+    			`id`,
+    		</if>
+        	<if test="openId != null">
+    			`open_id`,
+    		</if>
+        	<if test="productId != null">
+    			`product_id`,
+    		</if>
+        	<if test="amount != null">
+    			`amount`,
+    		</if>
+        	<if test="payAmount != null">
+    			`pay_amount`,
+    		</if>
+        	<if test="payStatus != null">
+    			`pay_status`,
+    		</if>
+        	<if test="payTime != null">
+    			`pay_time`,
+    		</if>
+        	<if test="transactionId != null">
+    			`transaction_id`,
+    		</if>
+        	<if test="payId != null">
+    			`pay_id`,
+    		</if>
+        	<if test="createTime != null">
+    			`create_time`,
+    		</if>
+        	<if test="updateTime != null">
+    			`update_time`,
+    		</if>
+        </trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+    			#{id},
+    		</if>
+        	<if test="openId != null">
+    			#{openId},
+    		</if>
+        	<if test="productId != null">
+    			#{productId},
+    		</if>
+        	<if test="amount != null">
+    			#{amount},
+    		</if>
+        	<if test="payAmount != null">
+    			#{payAmount},
+    		</if>
+        	<if test="payStatus != null">
+    			#{payStatus},
+    		</if>
+        	<if test="payTime != null">
+    			#{payTime},
+    		</if>
+        	<if test="transactionId != null">
+    			#{transactionId},
+    		</if>
+        	<if test="payId != null">
+    			#{payId},
+    		</if>
+        	<if test="createTime != null">
+    			#{createTime},
+    		</if>
+        	<if test="updateTime != null">
+    			#{updateTime},
+    		</if>
+        </trim>
+	</insert>
+	
+	<insert id="saveAll" >
+		insert into pay
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+        	`id`,
+        	`open_id`,
+        	`product_id`,
+        	`amount`,
+        	`pay_amount`,
+        	`pay_status`,
+        	`pay_time`,
+        	`transaction_id`,
+        	`pay_id`,
+        	`create_time`,
+        	`update_time`,
+        </trim>
+		values
+		<foreach collection ="list" item="item" separator =",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+        	#{item.id},
+        	#{item.openId},
+        	#{item.productId},
+        	#{item.amount},
+        	#{item.payAmount},
+        	#{item.payStatus},
+        	#{item.payTime},
+        	#{item.transactionId},
+        	#{item.payId},
+        	#{item.createTime},
+        	#{item.updateTime},
+			</trim>
+        </foreach>
+	</insert>
+	
+	<update id="update" parameterType="com.kalman03.easypay.dao.pojo.Pay">
+		update 
+			pay 
+		<set>
+				<if test="openId != null and openId != ''">
+					`open_id` = #{openId},
+				</if>
+				<if test="productId != null">
+					`product_id` = #{productId},
+				</if>
+				<if test="amount != null">
+					`amount` = #{amount},
+				</if>
+				<if test="payAmount != null">
+					`pay_amount` = #{payAmount},
+				</if>
+				<if test="payStatus != null">
+					`pay_status` = #{payStatus},
+				</if>
+				<if test="payTime != null">
+					`pay_time` = #{payTime},
+				</if>
+				<if test="transactionId != null and transactionId != ''">
+					`transaction_id` = #{transactionId},
+				</if>
+				<if test="payId != null and payId != ''">
+					`pay_id` = #{payId},
+				</if>
+				<if test="createTime != null">
+					`create_time` = #{createTime},
+				</if>
+				<if test="updateTime != null">
+					`update_time` = #{updateTime},
+				</if>
+		</set>
+		where
+    	    id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from pay where id=#{id}
+	</delete>
+</mapper>

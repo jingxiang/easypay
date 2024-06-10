@@ -1,0 +1,25 @@
+<section class="container d-flex flex-column vh-100">
+    <div class="row align-items-center justify-content-center g-0 h-lg-100 py-4">
+        <div class="col-lg-5 col-md-8 py-1 py-xl-0">
+            <div class="card shadow">
+                <div class="card-body py-3 px-6">
+                	<div class="py-2 text-center mb-5">
+                        <div class="mb-5 mt-3">
+                            <h1 class="fw-bold">${item.title}</h1>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <span class="h3 mb-0 fw-bold text-primary me-1">¥</span>
+                            <div class="display-4 fw-bold text-primary">${item.amountStr}</div>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div class="d-grid">
+                            <button type="button" id="J-Pay" class="btn btn-primary" data-id="${item.id}">立即付款</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

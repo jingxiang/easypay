@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Codescandy" />
+    <link rel="shortcut icon" type="image/x-icon" href="$velocity.getAssets("/assets/images/favicon/favicon.ico")" />
+    <link href="$velocity.getAssets("/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css")" rel="stylesheet" />
+    <link rel="stylesheet" href="$velocity.getAssets("/assets/css/theme.min.css")">
+    <title>千千绘画</title>
+</head>
+
+<body>
+    <main>
+        $screen_content
+    </main>
+    <script src="$velocity.getAssets("/assets/libs/@popperjs/core/dist/umd/popper.min.js")"></script>
+    <script src="$velocity.getAssets("/assets/libs/bootstrap/dist/js/bootstrap.min.js")"></script>
+    <script src="$velocity.getAssets("/assets/libs/simplebar/dist/simplebar.min.js")"></script>
+    <script src="$velocity.getAssets("/assets/js/theme.min.js")"></script>
+    <script src="$velocity.getAssets("/assets/js/jquery.min.js")"></script>
+    <script src="$velocity.getAssets("/assets/js/pay.js")"></script>
+</body>
+
+</html>

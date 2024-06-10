@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalman03.easypay.dao.mapper.ProductMapper">
+
+	<sql id="queryFields">
+        `id`,
+        `amount`,
+        `title`,
+        `summary`,
+        `description`,
+        `create_time`,
+        `update_time`
+	</sql>
+	
+	<resultMap id="BaseResultMap" type="com.kalman03.easypay.dao.pojo.Product">
+		<id property="id" column="id" jdbcType="BIGINT"/>
+		<result property="id" column="id" jdbcType="BIGINT" />
+		<result property="amount" column="amount" jdbcType="DECIMAL" />
+		<result property="title" column="title" jdbcType="VARCHAR" />
+		<result property="summary" column="summary" jdbcType="VARCHAR" />
+		<result property="description" column="description" jdbcType="LONGVARCHAR" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="whereClause">
+    	<if test="id != null">
+			and `id` = #{id}
+		</if>
+    	<if test="amount != null">
+			and `amount` = #{amount}
+		</if>
+    	<if test="title != null">
+			and `title` = #{title}
+		</if>
+    	<if test="summary != null">
+			and `summary` = #{summary}
+		</if>
+    	<if test="description != null">
+			and `description` = #{description}
+		</if>
+    	<if test="createTime != null">
+			and `create_time` = #{createTime}
+		</if>
+    	<if test="updateTime != null">
+			and `update_time` = #{updateTime}
+		</if>
+    </sql>
+	
+	<select id="findById" resultMap="BaseResultMap">
+		select  
+			<include refid="queryFields"/>
+		from
+			product
+		where
+			id=#{id}
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select 
+			<include refid="queryFields"/>
+		from
+			product
+		<where>
+            <include refid="whereClause"/>
+        </where>
+		<choose>
+            <when test="orderBy != null">
+                order by ${orderBy}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        limit #{offset}, #{limit}
+	</select>
+
+	<select id="findByIds" resultMap="BaseResultMap">
+		select 
+			<include refid="queryFields"/>
+		from
+			product
+		where
+			id in
+			<foreach collection="list" close=")" index="index" item="item" open="(" separator=",">
+				#{item}
+			</foreach>
+	</select>
+
+	<select id="count" resultType="int">
+		select 
+			count(*)
+		from 
+			product 
+		<where>
+            <include refid="whereClause"/>
+        </where>
+	</select>
+	
+	<insert id="save" parameterType="com.kalman03.easypay.dao.pojo.Product" keyProperty="id" useGeneratedKeys="true">
+		insert into product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+    			`id`,
+    		</if>
+        	<if test="amount != null">
+    			`amount`,
+    		</if>
+        	<if test="title != null">
+    			`title`,
+    		</if>
+        	<if test="summary != null">
+    			`summary`,
+    		</if>
+        	<if test="description != null">
+    			`description`,
+    		</if>
+        	<if test="createTime != null">
+    			`create_time`,
+    		</if>
+        	<if test="updateTime != null">
+    			`update_time`,
+    		</if>
+        </trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+    			#{id},
+    		</if>
+        	<if test="amount != null">
+    			#{amount},
+    		</if>
+        	<if test="title != null">
+    			#{title},
+    		</if>
+        	<if test="summary != null">
+    			#{summary},
+    		</if>
+        	<if test="description != null">
+    			#{description},
+    		</if>
+        	<if test="createTime != null">
+    			#{createTime},
+    		</if>
+        	<if test="updateTime != null">
+    			#{updateTime},
+    		</if>
+        </trim>
+	</insert>
+	
+	<insert id="saveAll" >
+		insert into product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+        	`id`,
+        	`amount`,
+        	`title`,
+        	`summary`,
+        	`description`,
+        	`create_time`,
+        	`update_time`,
+        </trim>
+		values
+		<foreach collection ="list" item="item" separator =",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+        	#{item.id},
+        	#{item.amount},
+        	#{item.title},
+        	#{item.summary},
+        	#{item.description},
+        	#{item.createTime},
+        	#{item.updateTime},
+			</trim>
+        </foreach>
+	</insert>
+	
+	<update id="update" parameterType="com.kalman03.easypay.dao.pojo.Product">
+		update 
+			product 
+		<set>
+				<if test="amount != null">
+					`amount` = #{amount},
+				</if>
+				<if test="title != null and title != ''">
+					`title` = #{title},
+				</if>
+				<if test="summary != null and summary != ''">
+					`summary` = #{summary},
+				</if>
+				<if test="description != null">
+					`description` = #{description},
+				</if>
+				<if test="createTime != null">
+					`create_time` = #{createTime},
+				</if>
+				<if test="updateTime != null">
+					`update_time` = #{updateTime},
+				</if>
+		</set>
+		where
+    	    id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from product where id=#{id}
+	</delete>
+</mapper>
