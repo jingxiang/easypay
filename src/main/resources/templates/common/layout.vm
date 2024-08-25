@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="$velocity.getAssets("/assets/images/favicon/favicon.ico")" />
     <link href="$velocity.getAssets("/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css")" rel="stylesheet" />
     <link rel="stylesheet" href="$velocity.getAssets("/assets/css/theme.min.css")">
-    <title>千千绘画</title>
+    <title>言艺千千绘画</title>
 </head>
 
 <body>
